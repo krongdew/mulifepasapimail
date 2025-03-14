@@ -455,6 +455,10 @@ function PostRow({ post, isSelected, onSelect, onSaveEmail, onSendTestEmail }: P
   const [isSaving, setIsSaving] = useState(false)
   const [saveStatus, setSaveStatus] = useState<{ success?: boolean, message?: string } | null>(null)
   const [isSending, setIsSending] = useState(false)
+  
+  // แปลง JSON string เป็น array
+  const categories = post.categories ? JSON.parse(post.categories as string) : [];
+  const tags = post.tags ? JSON.parse(post.tags as string) : [];
 
   const handleSave = async () => {
     setIsSaving(true)
@@ -498,22 +502,46 @@ function PostRow({ post, isSelected, onSelect, onSaveEmail, onSendTestEmail }: P
         />
       </td>
       <td className="px-6 py-4 w-1/3">
-  <div className="flex items-start">
-    <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded whitespace-nowrap mt-1">
-      {post.postType}
-    </span>
-    <a 
-      href={post.permalink} 
-      target="_blank" 
-      rel="noopener noreferrer" 
-      className="text-blue-600 hover:text-blue-900 line-clamp-2 break-words"
-      style={{ maxWidth: '500px' }}
-      title={post.title} // แสดงชื่อเต็มเมื่อ hover
-    >
-      {post.title}
-    </a>
-  </div>
-</td>
+        <div className="flex items-start">
+          <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded whitespace-nowrap mt-1">
+            {post.postType}
+          </span>
+          <a 
+            href={post.permalink} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-blue-600 hover:text-blue-900 line-clamp-2 break-words"
+            style={{ maxWidth: '500px' }}
+            title={post.title} // แสดงชื่อเต็มเมื่อ hover
+          >
+            {post.title}
+          </a>
+        </div>
+      </td>
+      <td className="px-6 py-4">
+        <div className="flex flex-wrap gap-1">
+          {categories.map((category: string, index: number) => (
+            <span key={index} className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+              {category}
+            </span>
+          ))}
+          {categories.length === 0 && (
+            <span className="text-gray-400 text-xs">ไม่มีหมวดหมู่</span>
+          )}
+        </div>
+      </td>
+      <td className="px-6 py-4">
+        <div className="flex flex-wrap gap-1">
+          {tags.map((tag: string, index: number) => (
+            <span key={index} className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded">
+              {tag}
+            </span>
+          ))}
+          {tags.length === 0 && (
+            <span className="text-gray-400 text-xs">ไม่มีแท็ก</span>
+          )}
+        </div>
+      </td>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <input 
@@ -557,7 +585,6 @@ function PostRow({ post, isSelected, onSelect, onSaveEmail, onSendTestEmail }: P
           <span className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded">{post.postStatus}</span>
         )}
       </td>
-
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         {post.lastReminder ? new Date(post.lastReminder).toLocaleString() : 'ยังไม่เคยส่ง'}
       </td>
