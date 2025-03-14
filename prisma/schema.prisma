@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id               Int       @id @default(autoincrement())
+  postId           Int       @unique
+  title            String
+  permalink        String
+  postType         String    @default("post")
+  responsibleEmail String?
+  lastReminder     DateTime?
+  createdAt        DateTime  @default(now())
+  postDate         DateTime?
+  postModified     DateTime?
+  postStatus       String    @default("publish")
+  content          String?
+  categories       String?   // เพิ่มฟิลด์สำหรับเก็บหมวดหมู่ในรูปแบบ JSON string
+  tags             String?   // เพิ่มฟิลด์สำหรับเก็บแท็กในรูปแบบ JSON string
+}
