@@ -342,6 +342,12 @@ export default function Home() {
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       โพสต์
                     </th>
+                    {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      หมวดหมู่
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      แท็ก
+                    </th> */}
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       อีเมลผู้รับผิดชอบ
                     </th>
@@ -505,20 +511,28 @@ function PostRow({ post, isSelected, onSelect, onSaveEmail, onSendTestEmail }: P
         <div className="flex items-start">
           <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded whitespace-nowrap mt-1">
             {post.postType}
+            {categories.map((category: string, index: number) => (
+            <span key={index} className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+              {category}
+            </span>
+          ))}
+          {categories.length === 0 && (
+            <span className="text-gray-400 text-xs">ไม่มีหมวดหมู่</span>
+          )}
           </span>
           <a 
             href={post.permalink} 
             target="_blank" 
             rel="noopener noreferrer" 
             className="text-blue-600 hover:text-blue-900 line-clamp-2 break-words"
-            style={{ maxWidth: '500px' }}
+            style={{ maxWidth: '1000px' }}
             title={post.title} // แสดงชื่อเต็มเมื่อ hover
           >
             {post.title}
           </a>
         </div>
       </td>
-      <td className="px-6 py-4">
+      {/* <td className="px-6 py-4">
         <div className="flex flex-wrap gap-1">
           {categories.map((category: string, index: number) => (
             <span key={index} className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
@@ -541,7 +555,7 @@ function PostRow({ post, isSelected, onSelect, onSaveEmail, onSendTestEmail }: P
             <span className="text-gray-400 text-xs">ไม่มีแท็ก</span>
           )}
         </div>
-      </td>
+      </td> */}
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <input 
